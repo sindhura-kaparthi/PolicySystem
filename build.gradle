@@ -23,6 +23,9 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'wsdl4j:wsdl4j:1.6.3'
+    implementation 'com.sun.xml.bind:jaxb-xjc:4.0.2'
+    implementation 'com.sun.xml.bind:jaxb-core:4.0.2'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.2'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -37,16 +40,37 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+
+tasks.register('generateJaxb') {
+    group = "build"
+    def jaxbTargetDir = file("src/main/java")
+    doLast {
+        ant {
+                taskdef(name: 'xjc', classname: 'com.sun.tools.xjc.XJCTask',
+                        classpath: configurations.runtimeClasspath.asPath)
+
+                mkdir(dir: jaxbTargetDir)
+
+                xjc(destdir: jaxbTargetDir,
+                        package: 'com.example.policysystem.policies',
+                        schema: 'src/main/resources/policy-system.xsd',
+                        extension: true
+                )
+        }
+    }
+}
+compileJava.dependsOn(generateJaxb)
+
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
-//    afterEvaluate {
-//        classDirectories.setFrom(files(classDirectories.files.collect {
-//            fileTree(dir: it, exclude: 'com/example/policysystem/PolicySystemApplication.class')
-//        }))
-//    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'com/example/policysystem/PolicySystemApplication.class')
+        }))
+    }
 }
 
 
