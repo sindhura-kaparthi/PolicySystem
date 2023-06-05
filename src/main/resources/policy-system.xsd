@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://policysystem.com/policies"
+           xmlns:tns="http://policysystem.com/policies" elementFormDefault="qualified" >
+    <xs:element name="GetPolicyDetailsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="claimNumber" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetPolicyDetailsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="policyDetails" type="tns:PolicyDetails"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="PolicyDetails">
+        <xs:sequence>
+            <xs:element name="policyHolderName" type="xs:string"/>
+            <xs:element name="policyNumber" type="xs:integer"/>
+            <xs:element name="coverageName" type="xs:string"/>
+            <xs:element name="coverageLimitInUSD" type="xs:integer"/>
+            <xs:element name="deductibleInUSD" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
