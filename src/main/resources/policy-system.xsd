@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://policysystem.com/policies"
-           xmlns:tns="http://policysystem.com/policies" elementFormDefault="qualified" >
+           xmlns:tns="http://policysystem.com/policies" elementFormDefault="qualified">
     <xs:element name="GetPolicyDetailsRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="claimNumber" type="xs:integer"/>
+                <xs:element name="claimNumber" type="tns:ClaimNumberType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:simpleType name="ClaimNumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z]{3}-\d{6}"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:element name="GetPolicyDetailsResponse">
         <xs:complexType>
