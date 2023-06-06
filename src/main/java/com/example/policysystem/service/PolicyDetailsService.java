@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigInteger;
 
 @Component
-public class PolicyDetailsSevice {
-
+public class PolicyDetailsService {
 
     public PolicyDetails getPolicyDetails() {
 
