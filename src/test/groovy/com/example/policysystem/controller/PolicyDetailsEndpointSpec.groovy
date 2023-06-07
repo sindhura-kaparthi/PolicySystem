@@ -1,6 +1,6 @@
 package com.example.policysystem.controller
 
-import com.example.policysystem.policies.PolicyDetails
+import com.example.policysystem.model.PolicyDetails
 import com.example.policysystem.service.PolicyDetailsService
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired

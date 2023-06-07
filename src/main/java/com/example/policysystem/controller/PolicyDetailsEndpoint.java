@@ -1,9 +1,9 @@
 package com.example.policysystem.controller;
 
 import com.example.policysystem.exception.InvalidClaimNumberException;
-import com.example.policysystem.policies.GetPolicyDetailsRequest;
-import com.example.policysystem.policies.GetPolicyDetailsResponse;
-import com.example.policysystem.policies.PolicyDetails;
+import com.example.policysystem.model.GetPolicyDetailsRequest;
+import com.example.policysystem.model.GetPolicyDetailsResponse;
+import com.example.policysystem.model.PolicyDetails;
 import com.example.policysystem.service.PolicyDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;

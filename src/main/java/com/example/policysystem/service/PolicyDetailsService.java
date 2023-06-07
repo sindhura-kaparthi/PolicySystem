@@ -1,7 +1,7 @@
 package com.example.policysystem.service;
 
-import com.example.policysystem.policies.GetPolicyDetailsResponse;
-import com.example.policysystem.policies.PolicyDetails;
+import com.example.policysystem.model.GetPolicyDetailsResponse;
+import com.example.policysystem.model.PolicyDetails;
 import jakarta.xml.bind.JAXB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
