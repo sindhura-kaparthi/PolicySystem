@@ -1,18 +1,21 @@
 package com.example.policysystem.service;
 
+import com.example.policysystem.policies.GetPolicyDetailsResponse;
 import com.example.policysystem.policies.PolicyDetails;
+import jakarta.xml.bind.JAXB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.StringWriter;
 import java.math.BigInteger;
 
 @Component
 public class PolicyDetailsService {
 
     @Autowired
-    private JmsTemplate jmsTemplate;
+    JmsTemplate jmsTemplate;
 
     @Value("${springjms.myQueue}")
     private String queue;
@@ -27,7 +30,14 @@ public class PolicyDetailsService {
         return policyDetails;
     }
 
-    public void sendMessage(PolicyDetails policyDetails) {
-        jmsTemplate.convertAndSend(queue, policyDetails);
+    public void sendMessage(GetPolicyDetailsResponse response) {
+        String xmlString = marshallToXml(response);
+        jmsTemplate.convertAndSend(queue, xmlString);
+    }
+
+    private String marshallToXml(Object object) {
+        StringWriter writer = new StringWriter();
+        JAXB.marshal(object, writer);
+        return writer.toString();
     }
 }

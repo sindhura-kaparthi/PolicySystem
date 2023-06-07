@@ -30,7 +30,7 @@ public class PolicyDetailsEndpoint {
             PolicyDetails policyDetails = policyDetailsService.getPolicyDetails();
             GetPolicyDetailsResponse response = new GetPolicyDetailsResponse();
             response.setPolicyDetails(policyDetails);
-            policyDetailsService.sendMessage(policyDetails);
+            policyDetailsService.sendMessage(response);
             return response;
         } else throw new InvalidClaimNumberException(INVALID_CLAIM_NUMBER);
     }
