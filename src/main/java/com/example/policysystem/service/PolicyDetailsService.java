@@ -9,7 +9,6 @@ import java.math.BigInteger;
 public class PolicyDetailsService {
 
     public PolicyDetails getPolicyDetails() {
-
         PolicyDetails policyDetails = new PolicyDetails();
         policyDetails.setPolicyNumber(BigInteger.valueOf(1234));
         policyDetails.setPolicyHolderName("ABCD");

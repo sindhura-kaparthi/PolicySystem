@@ -34,12 +34,12 @@ dependencies {
     testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
     testImplementation 'org.apache.groovy:groovy-all:4.0.12'
+    testImplementation 'org.springframework.ws:spring-ws-test:4.0.4'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
-
 
 tasks.register('generateJaxb') {
     group = "build"
@@ -64,6 +64,7 @@ compileJava.dependsOn(generateJaxb)
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
+
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
     afterEvaluate {
@@ -72,7 +73,6 @@ jacocoTestReport {
         }))
     }
 }
-
 
 jacocoTestCoverageVerification {
     violationRules {

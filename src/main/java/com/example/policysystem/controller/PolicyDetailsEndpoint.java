@@ -13,20 +13,25 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class PolicyDetailsEndpoint {
-    @Autowired
     PolicyDetailsService policyDetailsService;
+
+    @Autowired
+    public PolicyDetailsEndpoint(PolicyDetailsService policyDetailsService) {
+        this.policyDetailsService = policyDetailsService;
+    }
+
     private static final String INVALID_CLAIM_NUMBER = "Claim Number is not valid";
 
     @PayloadRoot(namespace = "http://policysystem.com/policies", localPart = "GetPolicyDetailsRequest")
     @ResponsePayload
-    public GetPolicyDetailsResponse getPolicyDetails(@RequestPayload GetPolicyDetailsRequest request) throws InvalidClaimNumberException {
-        if (validateClaimNumber(request.getClaimNumber())){
+    public GetPolicyDetailsResponse getPolicyDetails(@RequestPayload GetPolicyDetailsRequest request)
+            throws InvalidClaimNumberException {
+        if (validateClaimNumber(request.getClaimNumber())) {
             PolicyDetails policyDetails = policyDetailsService.getPolicyDetails();
             GetPolicyDetailsResponse response = new GetPolicyDetailsResponse();
             response.setPolicyDetails(policyDetails);
             return response;
-        }
-        else throw new InvalidClaimNumberException(INVALID_CLAIM_NUMBER);
+        } else throw new InvalidClaimNumberException(INVALID_CLAIM_NUMBER);
     }
 
     private boolean validateClaimNumber(String claimNumber) {

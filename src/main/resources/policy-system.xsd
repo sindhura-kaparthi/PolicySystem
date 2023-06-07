@@ -4,7 +4,7 @@
     <xs:element name="GetPolicyDetailsRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="claimNumber" type="xs:integer"/>
+                <xs:element name="claimNumber" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
