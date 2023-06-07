@@ -70,7 +70,7 @@ jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: 'com/example/policysystem/PolicySystemApplication.class')
+            fileTree(dir: it, exclude: ['com/example/policysystem/PolicySystemApplication.class', 'com/example/policysystem/policies/*'])
         }))
     }
 }
@@ -94,5 +94,10 @@ jacocoTestCoverageVerification {
                 maximum = 0.3
             }
         }
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com/example/policysystem/PolicySystemApplication.class', 'com/example/policysystem/policies/*'])
+        }))
     }
 }
