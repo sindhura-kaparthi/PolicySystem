@@ -2,25 +2,21 @@ package com.example.policysystem.service
 
 import com.example.policysystem.model.GetPolicyDetailsResponse
 import com.example.policysystem.model.PolicyDetails
-import org.mockito.MockitoAnnotations
-import org.spockframework.spring.SpringBean
 import org.springframework.jms.core.JmsTemplate
 import spock.lang.Specification
 
-class PolicyDetailsServiceSpec extends Specification{
-
-    @SpringBean
-    JmsTemplate jmsTemplate = Mock(JmsTemplate);
+class PolicyDetailsServiceSpec extends Specification {
 
     private PolicyDetailsService policyDetailsService
+    private JmsTemplate jmsTemplate
 
     def setup() {
-        MockitoAnnotations.openMocks(this)
+        jmsTemplate = Mock(JmsTemplate)
         policyDetailsService = new PolicyDetailsService()
         policyDetailsService.jmsTemplate = jmsTemplate
     }
 
-    def "should retrieve policy policy details"() {
+    def "getPolicyDetails should retrieve policy details"() {
         when:
         PolicyDetails policyDetails = policyDetailsService.getPolicyDetails()
 

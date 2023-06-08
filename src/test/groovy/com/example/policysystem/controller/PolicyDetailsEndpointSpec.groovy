@@ -15,31 +15,32 @@ import static org.springframework.ws.test.server.ResponseMatchers.*
 @WebServiceServerTest
 class PolicyDetailsEndpointSpec extends Specification {
 
-    @SpringBean
-    PolicyDetailsService policyDetailsService = Mock();
-
     @Autowired
-    private MockWebServiceClient client;
+    private MockWebServiceClient client
+
+    @SpringBean
+    PolicyDetailsService policyDetailsService = Mock()
+
+    private PolicyDetails expectedPolicyDetails
+
+    def setup() {
+        expectedPolicyDetails = new PolicyDetails()
+        expectedPolicyDetails.setPolicyNumber(BigInteger.valueOf(1234))
+        expectedPolicyDetails.setPolicyHolderName("ABCD")
+        expectedPolicyDetails.setCoverageName("EFGH")
+        expectedPolicyDetails.setCoverageLimitInUSD(BigInteger.valueOf(2))
+        expectedPolicyDetails.setDeductibleInUSD(BigInteger.valueOf(3))
+    }
 
     def "should return policy details in the response with valid claim number"() {
         given:
-        new PolicyDetailsEndpoint(policyDetailsService)
-
-        def expectedPolicyDetails = new PolicyDetails()
-
-        expectedPolicyDetails.setPolicyNumber(BigInteger.valueOf(1234));
-        expectedPolicyDetails.setPolicyHolderName("ABCD");
-        expectedPolicyDetails.setCoverageName("EFGH");
-        expectedPolicyDetails.setCoverageLimitInUSD(BigInteger.valueOf(2));
-        expectedPolicyDetails.setDeductibleInUSD(BigInteger.valueOf(3));
-
         policyDetailsService.getPolicyDetails() >> expectedPolicyDetails
 
-        StringSource request = new StringSource("<pol:GetPolicyDetailsRequest xmlns:pol='http://policysystem.com/policies'>" +
-                "         <pol:claimNumber>CMs-123456</pol:claimNumber>" +
-                "      </pol:GetPolicyDetailsRequest>"
+        StringSource request = new StringSource(
+                "<pol:GetPolicyDetailsRequest xmlns:pol='http://policysystem.com/policies'>" +
+                        "<pol:claimNumber>CMs-123456</pol:claimNumber>" +
+                        "</pol:GetPolicyDetailsRequest>"
         )
-
         StringSource expectedResponse = new StringSource(
                 "<ns2:GetPolicyDetailsResponse xmlns:ns2='http://policysystem.com/policies'>" +
                         "<ns2:policyDetails>" +
@@ -60,32 +61,23 @@ class PolicyDetailsEndpointSpec extends Specification {
 
     def "should return invalid claim number response when invalid claim number is given"() {
         given:
-        new PolicyDetailsEndpoint(policyDetailsService)
-
-        def expectedPolicyDetails = new PolicyDetails()
-
-        expectedPolicyDetails.setPolicyNumber(BigInteger.valueOf(1234));
-        expectedPolicyDetails.setPolicyHolderName("ABCD");
-        expectedPolicyDetails.setCoverageName("EFGH");
-        expectedPolicyDetails.setCoverageLimitInUSD(BigInteger.valueOf(2));
-        expectedPolicyDetails.setDeductibleInUSD(BigInteger.valueOf(3));
-
         policyDetailsService.getPolicyDetails() >> expectedPolicyDetails
 
-        StringSource request = new StringSource("<pol:GetPolicyDetailsRequest xmlns:pol='http://policysystem.com/policies'>" +
-                "         <pol:claimNumber>CM-123456</pol:claimNumber>" +
-                "      </pol:GetPolicyDetailsRequest>"
+        StringSource request = new StringSource(
+                "<pol:GetPolicyDetailsRequest xmlns:pol='http://policysystem.com/policies'>" +
+                        "<pol:claimNumber>CM-123456</pol:claimNumber>" +
+                        "</pol:GetPolicyDetailsRequest>"
         )
         StringSource expectedResponse = new StringSource(
                 "<SOAP-ENV:Fault xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>" +
-                        "<faultcode>SOAP-ENV:Server</faultcode>" +
+                        "<faultcode>SOAP-ENV:Client</faultcode>" +
                         "<faultstring xml:lang=\"en\">Claim Number is not valid</faultstring>" +
                         "</SOAP-ENV:Fault>"
         )
 
         expect:
         client.sendRequest(withPayload(request))
-                .andExpect(serverOrReceiverFault("Claim Number is not valid"))
+                .andExpect(clientOrSenderFault("Claim Number is not valid"))
                 .andExpect(payload(expectedResponse))
     }
 }
