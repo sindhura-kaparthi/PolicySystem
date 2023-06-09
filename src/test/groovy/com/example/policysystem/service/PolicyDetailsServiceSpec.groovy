@@ -21,7 +21,7 @@ class PolicyDetailsServiceSpec extends Specification {
         PolicyDetails policyDetails = policyDetailsService.getPolicyDetails()
 
         then:
-        policyDetails.policyNumber == BigInteger.valueOf(1234)
+        policyDetails.policyNumber == BigInteger.valueOf(12345678)
         policyDetails.policyHolderName == "ABCD"
         policyDetails.coverageName == "EFGH"
         policyDetails.coverageLimitInUSD == BigInteger.valueOf(2)

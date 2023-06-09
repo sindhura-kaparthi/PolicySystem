@@ -1,5 +1,6 @@
 package com.example.policysystem.configurations;
 
+import com.example.policysystem.utility.Constants;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,7 @@ public class PolicySystemConfiguration {
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema policyDetailsSchema) {
         DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
         definition.setPortTypeName("PolicyDetailsPort");
-        definition.setTargetNamespace("http://policysystem.com/policies");
+        definition.setTargetNamespace(Constants.NAMESPACE);
         definition.setLocationUri("/ws");
         definition.setSchema(policyDetailsSchema);
         return definition;

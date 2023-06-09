@@ -17,12 +17,12 @@ public class PolicyDetailsService {
     @Autowired
     JmsTemplate jmsTemplate;
 
-    @Value("${springjms.myQueue}")
+    @Value("${springjms.policyDetailsQueue}")
     private String queue;
 
     public PolicyDetails getPolicyDetails() {
         PolicyDetails policyDetails = new PolicyDetails();
-        policyDetails.setPolicyNumber(BigInteger.valueOf(1234));
+        policyDetails.setPolicyNumber(BigInteger.valueOf(12345678));
         policyDetails.setPolicyHolderName("ABCD");
         policyDetails.setCoverageName("EFGH");
         policyDetails.setCoverageLimitInUSD(BigInteger.valueOf(2));
@@ -32,6 +32,7 @@ public class PolicyDetailsService {
 
     public void sendMessage(GetPolicyDetailsResponse response) {
         String xmlString = marshallToXml(response);
+        System.out.println(xmlString);
         jmsTemplate.convertAndSend(queue, xmlString);
     }
 

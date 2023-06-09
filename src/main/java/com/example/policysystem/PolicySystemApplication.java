@@ -13,5 +13,4 @@ public class PolicySystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(PolicySystemApplication.class, args);
     }
-
 }
